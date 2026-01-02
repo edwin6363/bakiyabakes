@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Place Your Order - Bakiya Bakes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fffaf6;
+      margin: 0;
+      padding: 0;
+      color: #4a3c31;
+    }
+    header {
+      background: linear-gradient(135deg, #d4a373, #b07d62);
+      color: #fff;
+      text-align: center;
+      padding: 25px 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      letter-spacing: 1px;
+    }
+    .container {
+      max-width: 650px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #8b5e3c;
+      margin-bottom: 25px;
+      font-size: 1.8em;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: left;
+    }
+    label { font-weight: 600; color: #8b5e3c; }
+    input, select, textarea {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1em;
+      font-family: 'Poppins', sans-serif;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #d4a373;
+      box-shadow: 0 0 6px rgba(212,163,115,0.4);
+      outline: none;
+    }
+    button {
+      background: #d4a373;
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      align-self: center;
+      width: 60%;
+    }
+    button:hover {
+      background: #8b5e3c;
+      transform: scale(1.05);
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #b07d62;
+      color: #fff;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bakiya Bakes</h1>
+  </header>
+
+  <div class="container">
+    <h2>Place Your Order</h2>
+    <form action="https://formspree.io/f/mblpvvov" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="product">Product:</label>
+      <select id="product" name="product" required>
+        <option value="">-- Choose a product --</option>
+        <option>Walnut Brownie (500g)</option>
+        <option>Mixed Nuts Brownie (500g)</option>
+        <option>Oreo Brownie (500g)</option>
+        <option>Choco‑Chip Brownie (500g)</option>
+        <option>Double Choco Brownie (500g)</option>
+        <option>Triple Choco Brownie (500g)</option>
+        <option>Nutella Brownie (500g)</option>
+        <option>Vanilla Tea Cake</option>
+        <option>Chocolate Tea Cake</option>
+        <option>Fruit Tea Cake</option>
+        <option>Birthday Cake</option>
+        <option>Premium Cake</option>
+        <option>Chocolate Cake</option>
+      </select>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+
+      <label for="message">Special Requests:</label>
+      <textarea id="message" name="message" rows="3" placeholder="Any custom notes..."></textarea>
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>© 2025 Bakiya Bakes | Made with ❤️ and tradition</p>
+  </footer>
+
+  <script>
+    // Auto-select product from URL query (?product=...)
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get("product");
+    if(product) {
+      const select = document.getElementById("product");
+      for (let option of select.options) {
+        if(option.text === product) {
+          option.selected = true;
+          break;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

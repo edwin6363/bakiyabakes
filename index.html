@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bakiya Bakes</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* Base */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #fffaf6;
+      color: #4a3c31;
+    }
+    .order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.order-form label {
+  font-weight: 600;
+  color: #8b5e3c;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+}
+
+.order-form button {
+  align-self: flex-start;
+}
+
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #d4a373, #b07d62);
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5em;
+      letter-spacing: 1px;
+    }
+    nav { margin-top: 12px; }
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+    nav a:hover { opacity: 0.8; }
+
+    /* Layout */
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #8b5e3c;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;            /* anchor absolute arrows */
+      display: block;
+      margin-bottom: 30px;
+    }
+    .carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 10px 55px;            /* space so arrows don’t overlap cards */
+      -webkit-overflow-scrolling: touch;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+
+    .carousel button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #d4a373;
+      border: none;
+      color: #fff;
+      font-size: 1.8em;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .carousel .prev { left: 5px; }   /* inside the carousel */
+    .carousel .next { right: 5px; }
+    .carousel button:hover {
+      background: #8b5e3c;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Product cards */
+    .product {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 0 0 280px;             /* wider card */
+      max-width: 280px;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+    .product img {
+      width: 100%;
+      aspect-ratio: 4 / 3;         /* wider, shorter image */
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .product h3 {
+      margin: 10px 0 5px;
+      color: #b07d62;
+      font-size: 1.2em;
+      min-height: 40px;
+    }
+    .product p {
+      font-size: 0.9em;
+      color: #6b5b4b;
+      min-height: 45px;
+    }
+    .product .price {
+      margin: 10px 0;
+      font-weight: 700;
+      color: #4a3c31;
+      background: #fbe0c3;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* CTA button */
+    a.button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 18px;
+      background: #d4a373;
+      color: #fff;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    a.button:hover { background: #8b5e3c; }
+
+    /* Footer */
+    footer {
+      background: #b07d62;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      font-size: 0.9em;
+    }
+
+    /* Headings inside carousels */
+    h3.section-title {
+      color: #8b5e3c;
+      margin: 30px 0 10px;
+      text-align: left;
+    }
+
+    /* Prevent arrow click-through issues on mobile */
+    .carousel, .carousel-track, .product, .product img { touch-action: pan-y; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Bakiya Bakes</h1>
+    <nav>
+      <a href="#hero">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero" class="container" style="text-align:center; padding:60px 20px;">
+    <h2 style="font-size:2em; color:#8b5e3c;">Sweetness Crafted with Love</h2>
+    <p style="max-width:700px; margin:auto; line-height:1.6;">
+      From fudgy brownies to fluffy tea cakes, we bake warmth into every bite.
+    </p>
+    <a href="#menu" class="button">See Our Menu</a>
+  </section>
+
+  <!-- Menu -->
+  <section id="menu" class="container">
+    <h2>Our Menu</h2>
+
+    <!-- Brownies -->
+<h3 class="section-title">Brownies (500g)</h3>
+<div class="carousel">
+  <!-- Left arrow -->
+  <button class="prev" onclick="scrollTrack('brownies', -1)">‹</button>
+
+  <!-- Track -->
+  <div class="carousel-track" id="brownies">
+    <div class="product">
+      <img src="walnut brownie.jpeg" alt="Walnut Brownie">
+      <h3>Walnut Brownie</h3>
+      <p>Classic fudgy brownie with crunchy walnut pieces for a rich, nutty bite.</p>
+      <span class="price">₹480 (500g)</span>
+      <a href="order.html?product=Walnut Brownie (500g)" class="button">Order Now</a>
+
+    </div>
+
+    <div class="product">
+      <img src="" alt="Mixed Nuts Brownie">
+      <h3>Mixed Nuts Brownie</h3>
+      <p>Loaded with cashews, almonds, and walnuts — every slice a surprise crunch.</p>
+      <span class="price">₹530 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Mixed%20Nuts%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="oreo-brownie.jpg" alt="Oreo Brownie">
+      <h3>Oreo Brownie</h3>
+      <p>Dense chocolate brownie layered with Oreo chunks for a cookies‑and‑cream indulgence.</p>
+      <span class="price">₹480 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Oreo%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="chocochip-brownie.jpg" alt="Choco‑Chip Brownie">
+      <h3>Choco‑Chip Brownie</h3>
+      <p>Soft, gooey brownie studded with melty chocolate chips in every bite.</p>
+      <span class="price">₹480 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Choco%20Chip%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="doublechoco-brownie.jpg" alt="Double Choco Brownie">
+      <h3>Double Choco Brownie</h3>
+      <p>Extra cocoa and chocolate chunks — a brownie for true chocoholics.</p>
+      <span class="price">₹480 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Double%20Choco%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="triplechoco-brownie.jpg" alt="Triple Choco Brownie">
+      <h3>Triple Choco Brownie</h3>
+      <p>Dark, milk, and white chocolate swirled together in one decadent slab.</p>
+      <span class="price">₹500 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Triple%20Choco%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="nutella-brownie.jpg" alt="Nutella Brownie">
+      <h3>Nutella Brownie</h3>
+      <p>Fudgy brownie topped with a generous swirl of Nutella — indulgence at its finest.</p>
+      <span class="price">₹780 (500g)</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Nutella%20Brownie%20(500g)" class="button">Order Now</a>
+    </div>
+  </div>
+
+  <!-- Right arrow -->
+  <button class="next" onclick="scrollTrack('brownies', 1)">›</button>
+</div>
+
+
+    <!-- Tea Cakes -->
+<h3 class="section-title">Tea Cakes</h3>
+<div class="carousel">
+  <!-- Left arrow -->
+  <button class="prev" onclick="scrollTrack('teacakes', -1)">‹</button>
+
+  <!-- Track -->
+  <div class="carousel-track" id="teacakes">
+    <div class="product">
+      <img src="vanilla-teacake.jpg" alt="Vanilla Tea Cake">
+      <h3>Vanilla Tea Cake</h3>
+      <p>Soft, fluffy, and perfect with tea.</p>
+      <span class="price">₹200</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Vanilla%20Tea%20Cake" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="chocolate-teacake.jpg" alt="Chocolate Tea Cake">
+      <h3>Chocolate Tea Cake</h3>
+      <p>Moist chocolate sponge with rich flavor.</p>
+      <span class="price">₹220</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Chocolate%20Tea%20Cake" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="fruit-teacake.jpg" alt="Fruit Tea Cake">
+      <h3>Fruit Tea Cake</h3>
+      <p>Loaded with dried fruits and festive flavor.</p>
+      <span class="price">₹240</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Fruit%20Tea%20Cake" class="button">Order Now</a>
+    </div>
+  </div>
+
+  <!-- Right arrow -->
+  <button class="next" onclick="scrollTrack('teacakes', 1)">›</button>
+</div>
+
+   <!-- Cakes -->
+<h3 class="section-title">Cakes</h3>
+<div class="carousel">
+  <!-- Left arrow -->
+  <button class="prev" onclick="scrollTrack('cakes', -1)">‹</button>
+
+  <!-- Track -->
+  <div class="carousel-track" id="cakes">
+    <div class="product">
+      <img src="birthday-cake.jpg" alt="Birthday Cake">
+      <h3>Birthday Cake</h3>
+      <p>Customizable cakes for every celebration.</p>
+      <span class="price">Starts at ₹600</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Birthday%20Cake" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="premium-cake.jpg" alt="Premium Cake">
+      <h3>Premium Cake</h3>
+      <p>Elegant layered cakes with premium flavors.</p>
+      <span class="price">Starts at ₹800</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Premium%20Cake" class="button">Order Now</a>
+    </div>
+
+    <div class="product">
+      <img src="chocolate-cake.jpg" alt="Chocolate Cake">
+      <h3>Chocolate Cake</h3>
+      <p>Rich chocolate sponge with creamy frosting.</p>
+      <span class="price">Starts at ₹700</span>
+      <a href="https://wa.me/91YOURNUMBER?text=I%20want%20Chocolate%20Cake" class="button">Order Now</a>
+    </div>
+  </div>
+
+  <!-- Right arrow -->
+  <button class="next" onclick="scrollTrack('cakes', 1)">›</button>
+</div>
+
+  </section>
+
+    <!-- Footer -->
+  <footer>
+    <p>© 2025 Bakiya Bakes | Made with ❤️ and tradition</p>
+  </footer>
+
+  <!-- Carousel Scroll Script -->
+  <script>
+    function scrollTrack(id, dir) {
+      const track = document.getElementById(id);
+      if (!track) return;
+
+      // Measure a card width + gap for precise snapping
+      const card = track.querySelector('.product');
+      const style = card ? getComputedStyle(track) : null;
+      const gap = style ? parseInt(style.gap || '20', 10) : 20;
+      const step = card ? card.offsetWidth + gap : 300;
+
+      // Calculate target position safely
+      const target = Math.max(0, track.scrollLeft + dir * step);
+
+      // If already at start and going left, do nothing
+      if (dir < 0 && track.scrollLeft <= 0) return;
+
+      // Scroll smoothly
+      track.scrollTo({ left: target, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
+
